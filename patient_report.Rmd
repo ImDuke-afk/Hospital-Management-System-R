@@ -1,0 +1,41 @@
+---
+title: "Hospital Patient Report"
+output: pdf_document
+params:
+  patient: NA
+---
+
+# Patient Medical Record
+
+### Personal Information
+* **Patient ID:** `r params$patient$PatientID`
+* **Name:** `r params$patient$FirstName` `r params$patient$LastName`
+* **Age:** `r params$patient$Age` years old
+* **Admission Date:** `r params$patient$AdmissionDate`
+
+---
+
+### Medical Details
+* **Diagnosis/Condition:** `r params$patient$Condition`
+
+---
+
+### Assigned Medical Professional
+
+**Attending Physician:** `r params$patient$DoctorName`  
+**Specialty:** `r params$patient$Specialty`  
+**Contact:** `r params$patient$ContactNumber`
+
+### Physician Signature:
+
+```{r, echo=FALSE, out.width="150px"}
+# 1. Construct the filename based on DoctorID (e.g., "signatures/1.png")
+sig_file <- paste0("signatures/", params$patient$DoctorID, ".png")
+
+# 2. Check if the file actually exists before trying to show it
+if (file.exists(sig_file)) {
+  knitr::include_graphics(sig_file)
+} else {
+  # 3. Fallback text if you forgot to put the image in the folder
+  cat("*(Signature image not available on server)*")
+}
